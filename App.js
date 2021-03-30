@@ -1,40 +1,48 @@
-import React, { Component } from 'react'
-import { StyleSheet, Text, View, AppRegistry } from 'react-native'
-import styled from 'styled-components/native'
+import React, { Component } from "react";
+import { StyleSheet, Text, View, AppRegistry } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
-const CenterView = styled.View`
-  flex: 1;
-  align-items: center;
-  background: #333;
-`
-const WelcomeText = styled.Text`
-  color: white;
-  font-size: 20px;
-`
+const Hello = () => (
+  <View style={{ paddingTop: 50 }}>
+    <Text>Hello!</Text>
+  </View>
+);
 
-const WelcomeBtn = styled.TouchableOpacity`
-  width: 100px;
-  height: 50px;
-  background: red;
-  border-radius: 5px;
-  justify-content: center;
-  align-items: center;
-`
+const Goodbye = () => (
+  <View style={{ paddingTop: 50 }}>
+    <Text>Goodbye!</Text>
+  </View>
+);
 
-class FlexboxExamples extends Component {
-  render() {
-    return (
-      <CenterView>
-        <WelcomeText style={{marginTop: 100}}>
-          Hello!
-        </WelcomeText>
-        <WelcomeBtn onPress={()=>alert("hello")}>
-          <WelcomeText>Push me!</WelcomeText>
-        </WelcomeBtn>
-      </CenterView>
-    )
-  }
+const Tab = createBottomTabNavigator();
+
+function MyTabs() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ color, size }) => {
+            let iconName;
+            if (route.name === "Hello") {
+              iconName = "home";
+            } else if (route.name === "Byebye") {
+              iconName = "dashboard";
+            }
+            return <FontAwesome name={iconName} size={size} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: "tomato",
+          inactiveTintColor: "gray",
+        }}
+      >
+        <Tab.Screen name="Hello" component={Hello} />
+        <Tab.Screen name="Byebye" component={Goodbye} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
 }
 
-
-export default FlexboxExamples;
+export default MyTabs;
