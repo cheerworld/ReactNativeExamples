@@ -1,0 +1,12 @@
+{
+  "name": "FlexboxExamples",
+  "displayName": "FlexboxExamples",
+  "expo": {
+    "name": "FlexboxExamples",
+    "slug": "FlexboxExamples",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
