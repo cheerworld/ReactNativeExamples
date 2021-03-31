@@ -5,13 +5,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
 const Hello = () => (
-  <View style={{ paddingTop: 50 }}>
+  <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
     <Text>Hello!</Text>
   </View>
 );
 
 const Goodbye = () => (
-  <View style={{ paddingTop: 50 }}>
+  <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
     <Text>Goodbye!</Text>
   </View>
 );
@@ -22,24 +22,31 @@ function MyTabs() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ color, size }) => {
-            let iconName;
-            if (route.name === "Hello") {
-              iconName = "home";
-            } else if (route.name === "Byebye") {
-              iconName = "dashboard";
-            }
-            return <FontAwesome name={iconName} size={size} color={color} />;
-          },
-        })}
+        initialRouteName="Byebye"
         tabBarOptions={{
           activeTintColor: "tomato",
-          inactiveTintColor: "gray",
         }}
       >
-        <Tab.Screen name="Hello" component={Hello} />
-        <Tab.Screen name="Byebye" component={Goodbye} />
+        <Tab.Screen
+          name="Hello"
+          component={Hello}
+          options={{
+            tabBarLabel: "Home",
+            tabBarIcon: ({ color, size }) => (
+              <FontAwesome name="home" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Byebye"
+          component={Goodbye}
+          options={{
+            tabBarLabel: "Setting",
+            tabBarIcon: ({ color, size }) => (
+              <FontAwesome name="dashboard" color={color} size={size} />
+            ),
+          }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
