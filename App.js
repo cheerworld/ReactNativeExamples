@@ -1,55 +1,47 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, AppRegistry } from "react-native";
+import { StyleSheet, Text, View, AppRegistry, TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { createStackNavigator } from '@react-navigation/stack';
 
-const Hello = () => (
-  <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    <Text>Hello!</Text>
+const Home = ({ navigation }) => (
+  <View>
+    <Text>This is the Home view</Text>
+    <TouchableOpacity onPress={() => navigation.navigate('Dashboard')}>
+      <Text>Press here for the Dashboard</Text>
+    </TouchableOpacity>
   </View>
 );
 
-const Goodbye = () => (
-  <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    <Text>Goodbye!</Text>
+const Dashboard = () => (
+  <View>
+    <Text>This is the Dashboard</Text>
   </View>
 );
 
-const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
-function MyTabs() {
+function MyStack() {
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName="Byebye"
+      <Stack.Navigator
+        initialRouteName="Home"
         tabBarOptions={{
           activeTintColor: "tomato",
         }}
       >
-        <Tab.Screen
-          name="Hello"
-          component={Hello}
-          options={{
-            tabBarLabel: "Home",
-            tabBarIcon: ({ color, size }) => (
-              <FontAwesome name="home" color={color} size={size} />
-            ),
-          }}
+        <Stack.Screen
+          name="Home"
+          component={Home}
         />
-        <Tab.Screen
-          name="Byebye"
-          component={Goodbye}
-          options={{
-            tabBarLabel: "Setting",
-            tabBarIcon: ({ color, size }) => (
-              <FontAwesome name="dashboard" color={color} size={size} />
-            ),
-          }}
+        <Stack.Screen
+          name="Dashboard"
+          component={Dashboard}
         />
-      </Tab.Navigator>
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-export default MyTabs;
+export default MyStack;
