@@ -10,45 +10,51 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
 const Home = ({ navigation }) => (
-  <View>
+  <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
     <Text>This is the Home view</Text>
-    <TouchableOpacity onPress={() => navigation.navigate("Dashboard")}>
-      <Text>Press here for the Dashboard</Text>
+    <TouchableOpacity onPress={() => navigation.openDrawer()}>
+      <Text>Open Drawer</Text>
     </TouchableOpacity>
   </View>
 );
 
-const Dashboard = () => (
-  <View>
+const Dashboard = ({ navigation }) => (
+  <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
     <Text>This is the Dashboard</Text>
+    <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+      <Text>Toggle Drawer</Text>
+    </TouchableOpacity>
   </View>
 );
 
-const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 function MyStack() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen
           name="Home"
           component={Home}
-          options={{ title: "Homie" }}
+          options={{
+            drawerLabel: "HOMEIE",
+            drawerIcon: () => <FontAwesome name="home" size={20} color="red" />,
+          }}
         />
-        <Stack.Screen
+        <Drawer.Screen
           name="Dashboard"
           component={Dashboard}
           options={{
-            title: "Dashboard",
-            headerTintColor: "red",
-            headerStyle: {
-              backgroundColor: "green",
-            },
+            drawerLabel: "DASHBOARDIE",
+            drawerIcon: () => (
+              <FontAwesome name="dashboard" size={20} color="red" />
+            ),
           }}
         />
-      </Stack.Navigator>
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 }
