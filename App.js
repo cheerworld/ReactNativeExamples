@@ -6,32 +6,51 @@ import {
   AppRegistry,
   TouchableOpacity,
   Animated,
+  Image
 } from "react-native";
+import * as ImagePicker from 'expo-image-picker';
+import ImageEditor from "@react-native-community/image-editor";
 
 export default class App extends React.Component {
   state = {
-    opacity: new Animated.Value(0),
-    width: new Animated.Value(0),
-    height: new Animated.Value(0),
-  };
-
-  componentDidMount() {
-    const { opacity, width, height } = this.state;
-    Animated.timing(opacity, { toValue: 1, duration: 1000 }).start();
-    Animated.spring(width, { toValue: 300, speed: 5 }).start();
-    Animated.spring(height, { toValue: 300, speed: 5 }).start();
+    image: null,
   }
+
+  pickImage = async () => {
+    try {
+      const picker = await ImagePicker.launchImageLibraryAsync({
+        allowEditing: true,
+        aspect: [2,1]
+      });
+      console.log(picker);
+      if (!picker.cancelled) {
+        const edit = await ImageEditor.cropImage(picker.uri, {
+          offset: { x: 0, y: 0},
+          size: { width: picker.width, height: picker.height },
+          displaySize: { width: 200, height: 100 },
+          resizeMode: "contain",
+        });
+
+        console.log(edit);
+
+        this.setState(() => ({ image: edit}))
+      }
+    } catch (error) {
+      console.error(error)
+    }
+
+  }
+
   render() {
-    const { opacity, width, height } = this.state;
+    const { image } = this.state;
     return (
       <View style={styles.container}>
-        <Animated.Image
-          style={[styles.img, { opacity, height, width }]}
-          source={{
-            uri:
-              "https://pbs.twimg.com/profile_images/452111932548726784/EOKCqhMK_400x400.jpeg",
-          }}
-        />
+        <TouchableOpacity onPress={this.pickImage}>
+          <Text>Open Camera Roll</Text>
+        </TouchableOpacity>
+        {image && (
+          <Image style={styles.img} source={{uri: image}} />
+        )}
       </View>
     );
   }
@@ -44,7 +63,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   img: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
+    resizeMode: "contain",
+    backgroundColor: "black",
   },
 });
