@@ -24,16 +24,8 @@ export default class App extends React.Component {
       });
       console.log(picker);
       if (!picker.cancelled) {
-        const edit = await ImageEditor.cropImage(picker.uri, {
-          offset: { x: 0, y: 0},
-          size: { width: picker.width, height: picker.height },
-          displaySize: { width: 200, height: 100 },
-          resizeMode: "contain",
-        });
 
-        console.log(edit);
-
-        this.setState(() => ({ image: edit}))
+        this.setState(() => ({ image: picker.uri}))
       }
     } catch (error) {
       console.error(error)
